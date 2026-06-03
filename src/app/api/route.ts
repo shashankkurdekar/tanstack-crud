@@ -30,3 +30,25 @@ export async function GET() {
         return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
     }
 }
+export async function DELETE(req: NextRequest) {
+    try {
+        await connectDB();
+        const { id } = await req.json();
+        await userModel.findByIdAndDelete(id);
+        return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
+    }
+}
+export async function PATCH(req: NextRequest) {
+    try {
+        await connectDB();
+        const { id, name, email } = await req.json();
+        await userModel.findByIdAndUpdate(id, { name, email });
+        return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
+    }
+}
